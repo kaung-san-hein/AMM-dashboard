@@ -12,10 +12,10 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 export const login = createAsyncThunk("auth/signin", async (data, thunkAPI) => {
   try {
     const response = await call("post", "auth/signin", data);
-    const { access_token } = response.data;
+    const { access_token, name, phone_no } = response.data;
 
     setAccessToken(access_token);
-    return { success: response.success };
+    return { name, phone_no };
   } catch (error) {
     const { status, data } = error.response;
 
@@ -31,27 +31,27 @@ export const login = createAsyncThunk("auth/signin", async (data, thunkAPI) => {
   }
 });
 
-export const autoLogin = createAsyncThunk(
-  "auth/me",
-  async (_, thunkAPI) => {
-    try {
-      const response = await call("get", "auth/me");
-      const { name, phone_no } = response.data;
+export const autoLogin = createAsyncThunk("auth/me", async (_, thunkAPI) => {
+  try {
+    const response = await call("get", "auth/me");
+    const { name, phone_no } = response.data;
 
-      return { name, phone_no };
-    } catch (error) {
-      const { status, data } = error.response;
+    return { name, phone_no };
+  } catch (error) {
+    const { status, data } = error.response;
 
-      if (status === 403) {
-        setAccessToken(null);
-        NotificationManager.error(data.message);
-      } else {
-        NotificationManager.error(serverErrorMessage);
-      }
-      throw thunkAPI.rejectWithValue(error.message);
+    if (status === 403) {
+      setAccessToken(null);
+      NotificationManager.error(data.message);
+    } else if (status === 401) {
+      setAccessToken(null);
+      NotificationManager.error(data.message);
+    } else {
+      NotificationManager.error(serverErrorMessage);
     }
+    throw thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 export const changePassword = createAsyncThunk(
   "auth/changePassword",

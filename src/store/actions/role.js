@@ -83,8 +83,7 @@ export const updateRole = createAsyncThunk(
     } catch (error) {
       const { status, data } = error.response;
       if (status === 400) {
-        const obj = data.data;
-        NotificationManager.error(obj[Object.keys(obj)[0]]);
+        NotificationManager.error(data.message);
       } else if (status === 401) {
         setAccessToken(null);
         NotificationManager.error(data.message);
