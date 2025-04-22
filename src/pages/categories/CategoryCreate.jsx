@@ -5,30 +5,23 @@ import Grid from "@mui/material/Grid";
 import CustomModal from "../../components/modal/CustomModal";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { updateRole } from "../../store/actions/role";
+import { createCategory } from "../../store/actions/category";
 
-const RoleUpdate = ({ open, setOpen }) => {
+const CategoryCreate = ({ open, setOpen }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
   } = useForm();
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { role } = useSelector((state) => state.role);
-
-  useEffect(() => {
-    const { name } = role;
-
-    setValue("name", name);
-  }, [setValue, role]);
+  const { success } = useSelector((state) => state.role);
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await dispatch(updateRole({ ...data, id: role.id }));
+    await dispatch(createCategory(data));
     setLoading(false);
   };
 
@@ -38,9 +31,17 @@ const RoleUpdate = ({ open, setOpen }) => {
     });
   }, [reset]);
 
+  useEffect(() => {
+    if (success) {
+      handleReset();
+    }
+
+    return () => handleReset();
+  }, [success, handleReset]);
+
   return (
     <CustomModal
-      title="Update Role"
+      title="New Category"
       isOpen={open}
       onClick={(prev) => setOpen(!prev)}
     >
@@ -77,7 +78,7 @@ const RoleUpdate = ({ open, setOpen }) => {
             onClick={handleSubmit(onSubmit)}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Update"}
+            {loading ? "Loading..." : "Save"}
           </Button>
         </Grid>
       </Grid>
@@ -85,4 +86,4 @@ const RoleUpdate = ({ open, setOpen }) => {
   );
 };
 
-export default RoleUpdate;
+export default CategoryCreate;
