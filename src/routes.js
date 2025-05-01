@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import RoleList from "./pages/roles/Roles";
 import CategoryList from "./pages/categories/Categories";
+import ProductList from "./pages/products/Products";
 
 export const routes = [
   {
@@ -34,6 +35,13 @@ export const routes = [
     icon: FormatListNumberedIcon,
     path: "/categories",
     component: <CategoryList />,
+    layout: "/admin",
+  },
+  {
+    name: "Products",
+    icon: FormatListNumberedIcon,
+    path: "/products",
+    component: <ProductList />,
     layout: "/admin",
   },
 ];

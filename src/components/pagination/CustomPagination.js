@@ -6,6 +6,9 @@ const CustomPagination = ({ pageCount }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const searchParams = new URLSearchParams(location.search);
+  const currentPage = parseInt(searchParams.get("page")) || 1;
+
   const count = Math.ceil(pageCount);
 
   const handlePageChange = (page) => {
@@ -16,6 +19,7 @@ const CustomPagination = ({ pageCount }) => {
     <Stack alignItems="end" mt={3}>
       <Pagination
         count={count}
+        page={currentPage}
         color="primary"
         onChange={(_, page) => handlePageChange(page)}
       />

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Select,
   MenuItem,
@@ -6,36 +5,35 @@ import {
   InputLabel,
   FormHelperText,
 } from "@mui/material";
-import PropTypes from "prop-types";
+import { Controller } from "react-hook-form";
 
-const CustomSelect = ({ id, label, register, errors, options }) => {
+const CustomSelect = ({ id, label, control, errors, options }) => {
   return (
-    <>
-      <FormControl fullWidth size="small" error={Boolean(errors[id])}>
-        <InputLabel>{label}</InputLabel>
-        <Select
-          id={id}
-          {...register}
-          label={label}
-          sx={{
-            fieldset: { borderColor: "var(--primary-color)" },
-          }}
-        >
-          {options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-        {errors[id] && <FormHelperText>{errors[id]?.message}</FormHelperText>}
-      </FormControl>
-    </>
+    <FormControl fullWidth size="small" error={!!errors[id]}>
+      <InputLabel id={`${id}-label`}>{label}</InputLabel>
+      <Controller
+        name={id}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <Select
+            {...field}
+            labelId={`${id}-label`}
+            id={id}
+            label={label}
+            value={field.value ?? ""}
+          >
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
+      />
+      {errors[id] && <FormHelperText>{errors[id]?.message}</FormHelperText>}
+    </FormControl>
   );
 };
 
-CustomSelect.propTypes = {
-  label: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-};
-
-export default CustomSelect;
+export default CustomSelect

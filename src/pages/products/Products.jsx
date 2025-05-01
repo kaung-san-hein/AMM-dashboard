@@ -7,24 +7,29 @@ import CustomTable, {
   StyledTableCell,
   StyledTableRow,
 } from "../../components/table/CustomTable";
+import CustomPagination from "../../components/pagination/CustomPagination";
 import BackButton from "../../components/backButton/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import { deleteRole, getRole, getRoles } from "../../store/actions/role";
 import CircularProgress from "@mui/material/CircularProgress";
-import RoleCreate from "./RoleCreate";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-import RoleUpdate from "./RoleUpdate";
+import {
+  deleteProduct,
+  getProduct,
+  getProducts,
+} from "../../store/actions/product";
+import ProductCreate from "./ProductCreate";
+import { getCategories } from "../../store/actions/category";
 
-const RoleList = () => {
+const ProductList = () => {
   const router = useLocation();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
-  const { loading, roles } = useSelector((state) => state.role);
+  const { loading, products, total } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,12 +37,13 @@ const RoleList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    dispatch(getRoles(query));
+    dispatch(getProducts(query));
+    dispatch(getCategories());
   }, [dispatch, router.search]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are sure want to delete?")) {
-      dispatch(deleteRole(id));
+      dispatch(deleteProduct(id));
     }
   };
 
@@ -71,7 +77,7 @@ const RoleList = () => {
             marginTop: "10px",
           }}
         >
-          Roles
+          Products
         </Typography>
         <Box sx={{ flexGrow: 1, mb: 2 }}>
           <Grid alignItems="center" container spacing={2}>
@@ -91,23 +97,35 @@ const RoleList = () => {
           header={
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Category</StyledTableCell>
+              <StyledTableCell>Size</StyledTableCell>
+              <StyledTableCell>Net Weight</StyledTableCell>
+              <StyledTableCell>Kg</StyledTableCell>
+              <StyledTableCell>MadeIn</StyledTableCell>
+              <StyledTableCell>Price</StyledTableCell>
+              <StyledTableCell>Stock</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={roles.map((row, index) => (
+          body={products.map((row, index) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
                 {index + 1}
               </StyledTableCell>
-              <StyledTableCell>{row.name}</StyledTableCell>
+              <StyledTableCell>{row.category.name}</StyledTableCell>
+              <StyledTableCell>{row.size}</StyledTableCell>
+              <StyledTableCell>{row.net_weight}</StyledTableCell>
+              <StyledTableCell>{row.kg}</StyledTableCell>
+              <StyledTableCell>{row.made_in}</StyledTableCell>
+              <StyledTableCell>{row.price}</StyledTableCell>
+              <StyledTableCell>{row.stock}</StyledTableCell>
               <StyledTableCell>
                 <Button
                   variant="contained"
                   color="info"
                   sx={{ m: 1 }}
                   onClick={async () => {
-                    await dispatch(getRole(row.id));
+                    dispatch(getProduct(row.id));
                     setIsUpdateOpen(true);
                   }}
                 >
@@ -125,11 +143,11 @@ const RoleList = () => {
             </StyledTableRow>
           ))}
         />
+        {total > 5 && <CustomPagination pageCount={total / 5} />}
       </Box>
-      <RoleUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
-      <RoleCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
+      <ProductCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
     </>
   );
 };
 
-export default RoleList;
+export default ProductList;
