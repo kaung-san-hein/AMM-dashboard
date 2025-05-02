@@ -22,6 +22,7 @@ import {
 } from "../../store/actions/product";
 import ProductCreate from "./ProductCreate";
 import { getCategories } from "../../store/actions/category";
+import ProductUpdate from "./ProductUpdate";
 
 const ProductList = () => {
   const router = useLocation();
@@ -145,6 +146,7 @@ const ProductList = () => {
         />
         {total > 5 && <CustomPagination pageCount={total / 5} />}
       </Box>
+      <ProductUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
       <ProductCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
     </>
   );
