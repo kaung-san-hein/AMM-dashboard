@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import RoleList from "./pages/roles/Roles";
 import CategoryList from "./pages/categories/Categories";
 import ProductList from "./pages/products/Products";
+import CustomerList from "./pages/customers/Customers";
 
 export const routes = [
   {
@@ -42,6 +43,13 @@ export const routes = [
     icon: FormatListNumberedIcon,
     path: "/products",
     component: <ProductList />,
+    layout: "/admin",
+  },
+  {
+    name: "Customers",
+    icon: FormatListNumberedIcon,
+    path: "/customers",
+    component: <CustomerList />,
     layout: "/admin",
   },
 ];

@@ -3,6 +3,7 @@ import authReducer from "./reducers/auth";
 import roleReducer from "./reducers/role";
 import categoryReducer from "./reducers/category";
 import productReducer from "./reducers/product";
+import customerReducer from "./reducers/customer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     role: roleReducer,
     category: categoryReducer,
     product: productReducer,
+    customer: customerReducer,
   },
 });
 
