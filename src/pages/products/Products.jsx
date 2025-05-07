@@ -38,6 +38,7 @@ const ProductList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
+    query.limit = 5
     dispatch(getProducts(query));
     dispatch(getCategories());
   }, [dispatch, router.search]);

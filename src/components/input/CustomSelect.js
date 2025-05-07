@@ -16,13 +16,7 @@ const CustomSelect = ({ id, label, control, errors, options }) => {
         control={control}
         defaultValue=""
         render={({ field }) => (
-          <Select
-            {...field}
-            labelId={`${id}-label`}
-            id={id}
-            label={label}
-            value={field.value ?? ""}
-          >
+          <Select {...field} labelId={`${id}-label`} id={id} label={label}>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
@@ -36,4 +30,4 @@ const CustomSelect = ({ id, label, control, errors, options }) => {
   );
 };
 
-export default CustomSelect
+export default CustomSelect;
