@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -13,23 +13,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import CircularProgress from "@mui/material/CircularProgress";
-import Grid from "@mui/material/Grid";
-import AddIcon from "@mui/icons-material/Add";
 import {
-  deleteCustomer,
-  getCustomer,
-  getCustomers,
-} from "../../store/actions/customer";
-import CustomerCreate from "./CustomerCreate";
-import CustomerUpdate from "./CustomerUpdate";
+  deleteCustomerInvoice,
+  getCustomerInvoices,
+} from "../../store/actions/customerInvoice";
 
-const CustomerList = () => {
+const SaleInvoiceList = () => {
   const router = useLocation();
 
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-
-  const { loading, customers, total } = useSelector((state) => state.customer);
+  const { loading, customerInvoices, total } = useSelector(
+    (state) => state.customerInvoice
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,13 +31,13 @@ const CustomerList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5
-    dispatch(getCustomers(query));
+    query.limit = 5;
+    dispatch(getCustomerInvoices(query));
   }, [dispatch, router.search]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are sure want to delete?")) {
-      dispatch(deleteCustomer(id));
+      dispatch(deleteCustomerInvoice(id));
     }
   };
 
@@ -77,52 +71,29 @@ const CustomerList = () => {
             marginTop: "10px",
           }}
         >
-          Customers
+          Customer Invoice List
         </Typography>
-        <Box sx={{ flexGrow: 1, mb: 2 }}>
-          <Grid alignItems="center" container spacing={2}>
-            <Grid item xs={12} md={3}>
-              <Button
-                variant="contained"
-                endIcon={<AddIcon />}
-                color="success"
-                onClick={() => setIsCreateOpen(true)}
-              >
-                New
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
         <CustomTable
           header={
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Voucher No</StyledTableCell>
+              <StyledTableCell>Customer Name</StyledTableCell>
               <StyledTableCell>Phone No</StyledTableCell>
-              <StyledTableCell>Address</StyledTableCell>
+              <StyledTableCell>Date</StyledTableCell>
+              <StyledTableCell>Total</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={customers.map((row, index) => (
+          body={customerInvoices.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {index + 1}
+                {row.id}
               </StyledTableCell>
-              <StyledTableCell>{row.name}</StyledTableCell>
-              <StyledTableCell>{row.phone_no}</StyledTableCell>
-              <StyledTableCell>{row.address}</StyledTableCell>
+              <StyledTableCell>{row?.customer.name}</StyledTableCell>
+              <StyledTableCell>{row?.customer.phone_no}</StyledTableCell>
+              <StyledTableCell>{row.date}</StyledTableCell>
+              <StyledTableCell>{row.total}</StyledTableCell>
               <StyledTableCell>
-                <Button
-                  variant="contained"
-                  color="info"
-                  sx={{ m: 1 }}
-                  onClick={async () => {
-                    dispatch(getCustomer(row.id));
-                    setIsUpdateOpen(true);
-                  }}
-                >
-                  Update
-                </Button>
                 <Button
                   variant="contained"
                   color="error"
@@ -137,10 +108,8 @@ const CustomerList = () => {
         />
         {total > 5 && <CustomPagination pageCount={total / 5} />}
       </Box>
-      <CustomerUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
-      <CustomerCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
     </>
   );
 };
 
-export default CustomerList;
+export default SaleInvoiceList;

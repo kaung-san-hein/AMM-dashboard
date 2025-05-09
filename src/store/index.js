@@ -4,6 +4,7 @@ import roleReducer from "./reducers/role";
 import categoryReducer from "./reducers/category";
 import productReducer from "./reducers/product";
 import customerReducer from "./reducers/customer";
+import customerInvoiceReducer from "./reducers/customerInvoice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     category: categoryReducer,
     product: productReducer,
     customer: customerReducer,
+    customerInvoice: customerInvoiceReducer,
   },
 });
 

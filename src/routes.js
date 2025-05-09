@@ -9,6 +9,7 @@ import CategoryList from "./pages/categories/Categories";
 import ProductList from "./pages/products/Products";
 import CustomerList from "./pages/customers/Customers";
 import SalePage from "./pages/sale/SalePage";
+import SaleInvoiceList from "./pages/sale/SaleInvoices";
 
 export const routes = [
   {
@@ -59,6 +60,13 @@ export const routes = [
     icon: LocalOfferIcon,
     path: "/sale-page",
     component: <SalePage />,
+    layout: "/admin",
+  },
+  {
+    name: "CustomerInvoicePage",
+    icon: FormatListNumberedIcon,
+    path: "/customer-invoices",
+    component: <SaleInvoiceList />,
     layout: "/admin",
   },
 ];
