@@ -7,6 +7,7 @@ import customerReducer from "./reducers/customer";
 import customerInvoiceReducer from "./reducers/customerInvoice";
 import supplierReducer from "./reducers/supplier";
 import supplierInvoiceReducer from "./reducers/supplierInvoice";
+import dashboardReducer from "./reducers/dashboard";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     customerInvoice: customerInvoiceReducer,
     supplier: supplierReducer,
     supplierInvoice: supplierInvoiceReducer,
+    dashboard: dashboardReducer,
   },
 });
 

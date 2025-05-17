@@ -1,6 +1,4 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -13,6 +11,11 @@ import SaleInvoiceList from "./pages/sale/SaleInvoices";
 import SupplierList from "./pages/suppliers/Suppliers";
 import PurchasePage from "./pages/purchase/PurchasePage";
 import PurchaseInvoiceList from "./pages/purchase/PurchaseInvoices";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import CategoryIcon from "@mui/icons-material/Category";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 export const routes = [
   {
@@ -32,28 +35,28 @@ export const routes = [
   },
   {
     name: "Roles",
-    icon: AccountCircleIcon,
+    icon: VpnKeyIcon,
     path: "/roles",
     component: <RoleList />,
     layout: "/admin",
   },
   {
     name: "Categories",
-    icon: FormatListNumberedIcon,
+    icon: CategoryIcon,
     path: "/categories",
     component: <CategoryList />,
     layout: "/admin",
   },
   {
     name: "Products",
-    icon: FormatListNumberedIcon,
+    icon: Inventory2Icon,
     path: "/products",
     component: <ProductList />,
     layout: "/admin",
   },
   {
     name: "Customers",
-    icon: FormatListNumberedIcon,
+    icon: PeopleAltIcon,
     path: "/customers",
     component: <CustomerList />,
     layout: "/admin",
@@ -67,14 +70,14 @@ export const routes = [
   },
   {
     name: "CustomerInvoicePage",
-    icon: FormatListNumberedIcon,
+    icon: ReceiptLongIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
     layout: "/admin",
   },
   {
     name: "Suppliers",
-    icon: FormatListNumberedIcon,
+    icon: PeopleAltIcon,
     path: "/suppliers",
     component: <SupplierList />,
     layout: "/admin",
@@ -88,7 +91,7 @@ export const routes = [
   },
   {
     name: "SupplierInvoicePage",
-    icon: FormatListNumberedIcon,
+    icon: ReceiptLongIcon,
     path: "/supplier-invoices",
     component: <PurchaseInvoiceList />,
     layout: "/admin",

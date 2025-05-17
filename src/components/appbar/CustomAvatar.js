@@ -8,7 +8,7 @@ import Logout from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
-import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+// import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import avatar from "../../assets/images/avatar.jpeg";
@@ -80,12 +80,12 @@ const CustomAvatar = () => {
         <MenuItem onClick={handleCloseUserMenu}>
           <CustomMenuItemIcon name={user.phone_no} icon={VerifiedUserIcon} />
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu}>
+        {/* <MenuItem onClick={handleCloseUserMenu}>
           <CustomMenuItemIcon
             name={"Change Password"}
             icon={SettingsSuggestIcon}
           />
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           onClick={() => {
             handleCloseUserMenu();
