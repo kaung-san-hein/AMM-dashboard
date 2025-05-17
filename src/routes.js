@@ -1,7 +1,7 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import RoleList from "./pages/roles/Roles";
@@ -10,6 +10,7 @@ import ProductList from "./pages/products/Products";
 import CustomerList from "./pages/customers/Customers";
 import SalePage from "./pages/sale/SalePage";
 import SaleInvoiceList from "./pages/sale/SaleInvoices";
+import SupplierList from "./pages/suppliers/Suppliers";
 
 export const routes = [
   {
@@ -67,6 +68,13 @@ export const routes = [
     icon: FormatListNumberedIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
+    layout: "/admin",
+  },
+  {
+    name: "Suppliers",
+    icon: FormatListNumberedIcon,
+    path: "/suppliers",
+    component: <SupplierList />,
     layout: "/admin",
   },
 ];
