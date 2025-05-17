@@ -11,6 +11,8 @@ import CustomerList from "./pages/customers/Customers";
 import SalePage from "./pages/sale/SalePage";
 import SaleInvoiceList from "./pages/sale/SaleInvoices";
 import SupplierList from "./pages/suppliers/Suppliers";
+import PurchasePage from "./pages/purchase/PurchasePage";
+import PurchaseInvoiceList from "./pages/purchase/PurchaseInvoices";
 
 export const routes = [
   {
@@ -75,6 +77,20 @@ export const routes = [
     icon: FormatListNumberedIcon,
     path: "/suppliers",
     component: <SupplierList />,
+    layout: "/admin",
+  },
+  {
+    name: "PurchasePage",
+    icon: LocalOfferIcon,
+    path: "/purchase-page",
+    component: <PurchasePage />,
+    layout: "/admin",
+  },
+  {
+    name: "SupplierInvoicePage",
+    icon: FormatListNumberedIcon,
+    path: "/supplier-invoices",
+    component: <PurchaseInvoiceList />,
     layout: "/admin",
   },
 ];
