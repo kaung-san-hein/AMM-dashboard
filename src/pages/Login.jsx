@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -35,16 +35,17 @@ const Login = () => {
         sx={{
           margin: "30px",
           padding: "0px 30px 30px 30px",
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
         }}
       >
         <Typography
           gutterBottom
-          variant="h4"
-          component="h4"
+          variant="h5"
+          component="h5"
           sx={{
             fontWeight: "bold",
             marginTop: "30px",
-            color: "var(--primary-color)",
+            color: "black",
           }}
         >
           Login
@@ -68,6 +69,9 @@ const Login = () => {
           sx={{
             marginTop: "18px",
             bgcolor: "var(--primary-color)",
+            "&:hover": {
+              bgcolor: "rgba(0, 0, 0, 0.7)",
+            },
           }}
           onClick={handleLogin}
           disabled={loading}

@@ -20,7 +20,7 @@ const CustomPagination = ({ pageCount }) => {
       <Pagination
         count={count}
         page={currentPage}
-        color="primary"
+        color="standard"
         onChange={(_, page) => handlePageChange(page)}
       />
     </Stack>

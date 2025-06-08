@@ -104,7 +104,9 @@ const AdminLayout = () => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{ display: "flex", bgcolor: "var(--bg-color)", minHeight: "100vh" }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -133,7 +135,15 @@ const AdminLayout = () => {
           <CustomAvatar />
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          [`& .MuiDrawer-paper`]: {
+            bgcolor: "var(--bg-color)",
+          },
+        }}
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
