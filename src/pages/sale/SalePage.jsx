@@ -52,8 +52,15 @@ const SalePage = () => {
 
   const handleSale = async () => {
     setLoading(true);
-    if (!selectedCustomer || items.length === 0) {
+    if (!selectedCustomer) {
+      NotificationManager.error("Please select customer!");
+      setLoading(false)
+      return
+    }
+    if (items.length === 0) {
       NotificationManager.error("Please provide sale items!");
+      setLoading(false)
+      return
     }
 
     let total = 0;
@@ -125,7 +132,7 @@ const SalePage = () => {
                 Add Item
               </Button>
             </Grid>
-            <Grid item>
+            <Grid item xs={3}>
               <CustomSelectBox
                 value={selectedCustomer}
                 onChange={(e) => setSelectedCustomer(e.target.value)}
@@ -165,9 +172,9 @@ const SalePage = () => {
               </StyledTableCell>
               <StyledTableCell>{row.product.size}</StyledTableCell>
               <StyledTableCell>{row.quantity}</StyledTableCell>
-              <StyledTableCell>{row.product.price}</StyledTableCell>
+              <StyledTableCell>{row.product.price} Ks</StyledTableCell>
               <StyledTableCell>
-                {row.quantity * row.product.price}
+                {row.quantity * row.product.price} Ks
               </StyledTableCell>
               <StyledTableCell>
                 <Button

@@ -52,19 +52,27 @@ const PurchasePage = () => {
 
   const handleSale = async () => {
     setLoading(true);
-    if (!selectedSupplier || items.length === 0) {
+    if (!selectedSupplier) {
+      NotificationManager.error("Please select supplier!");
+      setLoading(false);
+      return
+    }
+
+    if (items.length === 0) {
       NotificationManager.error("Please provide purchase items!");
+      setLoading(false);
+      return
     }
 
     let total = 0;
 
     const saleItems = items.map((item) => {
-      total += item.quantity * item.product.price;
+      total += item.quantity * item.price;
 
       return {
         product_id: item.product.id,
         quantity: +item.quantity,
-        price: item.product.price,
+        price: +item.price,
       };
     });
 
@@ -125,7 +133,7 @@ const PurchasePage = () => {
                 Add Item
               </Button>
             </Grid>
-            <Grid item>
+            <Grid item xs={3}>
               <CustomSelectBox
                 value={selectedSupplier}
                 onChange={(e) => setSelectedSupplier(e.target.value)}
@@ -142,7 +150,7 @@ const PurchasePage = () => {
                 onClick={() => handleSale(handleSale)}
                 disabled={loading}
               >
-                {loading ? "Loading..." : "Sale"}
+                {loading ? "Loading..." : "Purchase"}
               </Button>
             </Grid>
           </Grid>
@@ -165,9 +173,9 @@ const PurchasePage = () => {
               </StyledTableCell>
               <StyledTableCell>{row.product.size}</StyledTableCell>
               <StyledTableCell>{row.quantity}</StyledTableCell>
-              <StyledTableCell>{row.product.price}</StyledTableCell>
+              <StyledTableCell>{row.product.price} Ks</StyledTableCell>
               <StyledTableCell>
-                {row.quantity * row.product.price}
+                {row.quantity * row.product.price} Ks
               </StyledTableCell>
               <StyledTableCell>
                 <Button

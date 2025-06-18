@@ -22,6 +22,7 @@ import {
 } from "../../store/actions/supplier";
 import SupplierUpdate from "./SupplierUpdate";
 import SupplierCreate from "./SupplierCreate";
+import { LIMIT } from "../../utils/constant";
 
 const SupplierList = () => {
   const router = useLocation();
@@ -37,7 +38,7 @@ const SupplierList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5;
+    query.limit = LIMIT;
     dispatch(getSuppliers(query));
   }, [dispatch, router.search]);
 
@@ -135,7 +136,7 @@ const SupplierList = () => {
             </StyledTableRow>
           ))}
         />
-        {total > 5 && <CustomPagination pageCount={total / 5} />}
+        {total > LIMIT && <CustomPagination pageCount={total / LIMIT} />}
       </Box>
       <SupplierUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
       <SupplierCreate open={isCreateOpen} setOpen={setIsCreateOpen} />

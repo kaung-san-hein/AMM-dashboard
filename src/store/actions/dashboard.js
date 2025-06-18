@@ -9,7 +9,6 @@ export const getAllTotal = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const result = await call("get", `dashboard/total`);
-      console.log(result)
       return result;
     } catch (error) {
       const { status, data } = error.response;

@@ -30,9 +30,9 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
     );
 
     const item = {
-        ...data,
-        product: selectedProduct
-    }
+      ...data,
+      product: selectedProduct,
+    };
 
     setItems((prev) => [...prev, item]);
 
@@ -43,6 +43,7 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
     reset({
       product: "",
       quantity: null,
+      price: null,
     });
   }, [reset]);
 
@@ -69,6 +70,18 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
             register={{
               ...register("quantity", {
                 required: "Quantity is required!",
+              }),
+            }}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <CustomNumberField
+            id="price"
+            label="Price"
+            register={{
+              ...register("price", {
+                required: "Price is required!",
               }),
             }}
             errors={errors}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,9 +17,15 @@ import {
   deleteSupplierInvoice,
   getSupplierInvoices,
 } from "../../store/actions/supplierInvoice";
+import { LIMIT } from "../../utils/constant";
+import { formatUTCToMyanmarTime } from "../../utils/convertFormattedDate";
+import PurchaseDetail from "./PurchaseDetail";
 
 const PurchaseInvoiceList = () => {
   const router = useLocation();
+
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [detail, setDetail] = useState(null);
 
   const { loading, supplierInvoices, total } = useSelector(
     (state) => state.supplierInvoice
@@ -31,7 +37,7 @@ const PurchaseInvoiceList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5;
+    query.limit = LIMIT;
     dispatch(getSupplierInvoices(query));
   }, [dispatch, router.search]);
 
@@ -76,6 +82,7 @@ const PurchaseInvoiceList = () => {
         <CustomTable
           header={
             <TableRow>
+              <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Voucher No</StyledTableCell>
               <StyledTableCell>Supplier Name</StyledTableCell>
               <StyledTableCell>Phone No</StyledTableCell>
@@ -84,16 +91,30 @@ const PurchaseInvoiceList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={supplierInvoices.map((row) => (
+          body={supplierInvoices.map((row, index) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {row.id}
+                {index + 1}
               </StyledTableCell>
+              <StyledTableCell>{row?.date}</StyledTableCell>
               <StyledTableCell>{row?.supplier.name}</StyledTableCell>
               <StyledTableCell>{row?.supplier.phone_no}</StyledTableCell>
-              <StyledTableCell>{row.date}</StyledTableCell>
-              <StyledTableCell>{row.total}</StyledTableCell>
               <StyledTableCell>
+                {formatUTCToMyanmarTime(row?.date)}
+              </StyledTableCell>
+              <StyledTableCell>{row.total} Ks</StyledTableCell>
+              <StyledTableCell>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ m: 1 }}
+                  onClick={() => {
+                    setIsDetailOpen(true);
+                    setDetail(row);
+                  }}
+                >
+                  Detail
+                </Button>
                 <Button
                   variant="contained"
                   color="error"
@@ -106,8 +127,13 @@ const PurchaseInvoiceList = () => {
             </StyledTableRow>
           ))}
         />
-        {total > 5 && <CustomPagination pageCount={total / 5} />}
+        {total > LIMIT && <CustomPagination pageCount={total / LIMIT} />}
       </Box>
+      <PurchaseDetail
+        open={isDetailOpen}
+        setOpen={setIsDetailOpen}
+        data={detail}
+      />
     </>
   );
 };

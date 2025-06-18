@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,9 +17,15 @@ import {
   deleteCustomerInvoice,
   getCustomerInvoices,
 } from "../../store/actions/customerInvoice";
+import { LIMIT } from "../../utils/constant";
+import { formatUTCToMyanmarTime } from "../../utils/convertFormattedDate";
+import SaleDetail from "./SaleDetail";
 
 const SaleInvoiceList = () => {
   const router = useLocation();
+
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [detail, setDetail] = useState(null);
 
   const { loading, customerInvoices, total } = useSelector(
     (state) => state.customerInvoice
@@ -31,7 +37,7 @@ const SaleInvoiceList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5;
+    query.limit = LIMIT;
     dispatch(getCustomerInvoices(query));
   }, [dispatch, router.search]);
 
@@ -76,6 +82,7 @@ const SaleInvoiceList = () => {
         <CustomTable
           header={
             <TableRow>
+              <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Voucher No</StyledTableCell>
               <StyledTableCell>Customer Name</StyledTableCell>
               <StyledTableCell>Phone No</StyledTableCell>
@@ -84,16 +91,30 @@ const SaleInvoiceList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={customerInvoices.map((row) => (
+          body={customerInvoices.map((row, index) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {row.id}
+                {index + 1}
               </StyledTableCell>
+              <StyledTableCell>{row?.date}</StyledTableCell>
               <StyledTableCell>{row?.customer.name}</StyledTableCell>
               <StyledTableCell>{row?.customer.phone_no}</StyledTableCell>
-              <StyledTableCell>{row.date}</StyledTableCell>
-              <StyledTableCell>{row.total}</StyledTableCell>
               <StyledTableCell>
+                {formatUTCToMyanmarTime(row?.date)}
+              </StyledTableCell>
+              <StyledTableCell>{row.total} Ks</StyledTableCell>
+              <StyledTableCell>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ m: 1 }}
+                  onClick={() => {
+                    setIsDetailOpen(true);
+                    setDetail(row);
+                  }}
+                >
+                  Detail
+                </Button>
                 <Button
                   variant="contained"
                   color="error"
@@ -106,8 +127,9 @@ const SaleInvoiceList = () => {
             </StyledTableRow>
           ))}
         />
-        {total > 5 && <CustomPagination pageCount={total / 5} />}
+        {total > LIMIT && <CustomPagination pageCount={total / LIMIT} />}
       </Box>
+      <SaleDetail open={isDetailOpen} setOpen={setIsDetailOpen} data={detail} />
     </>
   );
 };

@@ -23,12 +23,16 @@ import {
 import ProductCreate from "./ProductCreate";
 import { getCategories } from "../../store/actions/category";
 import ProductUpdate from "./ProductUpdate";
+import { LIMIT } from "../../utils/constant";
+import ProductDetail from "./ProductDetail";
 
 const ProductList = () => {
   const router = useLocation();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [detail, setDetail] = useState(null)
 
   const { loading, products, total } = useSelector((state) => state.product);
   const dispatch = useDispatch();
@@ -38,7 +42,7 @@ const ProductList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5
+    query.limit = LIMIT
     dispatch(getProducts(query));
     dispatch(getCategories());
   }, [dispatch, router.search]);
@@ -119,9 +123,20 @@ const ProductList = () => {
               <StyledTableCell>{row.net_weight}</StyledTableCell>
               <StyledTableCell>{row.kg}</StyledTableCell>
               <StyledTableCell>{row.made_in}</StyledTableCell>
-              <StyledTableCell>{row.price}</StyledTableCell>
+              <StyledTableCell>{row.price} Ks</StyledTableCell>
               <StyledTableCell>{row.stock}</StyledTableCell>
               <StyledTableCell>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{ m: 1 }}
+                  onClick={() => {
+                    setIsDetailOpen(true);
+                    setDetail(row)
+                  }}
+                >
+                  Detail
+                </Button>
                 <Button
                   variant="contained"
                   color="info"
@@ -145,10 +160,11 @@ const ProductList = () => {
             </StyledTableRow>
           ))}
         />
-        {total > 5 && <CustomPagination pageCount={total / 5} />}
+        {total > LIMIT && <CustomPagination pageCount={total / LIMIT} />}
       </Box>
       <ProductUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
       <ProductCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
+      <ProductDetail open={isDetailOpen} setOpen={setIsDetailOpen} data={detail} />
     </>
   );
 };

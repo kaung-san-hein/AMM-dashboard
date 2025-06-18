@@ -22,6 +22,7 @@ import {
 } from "../../store/actions/customer";
 import CustomerCreate from "./CustomerCreate";
 import CustomerUpdate from "./CustomerUpdate";
+import { LIMIT } from "../../utils/constant";
 
 const CustomerList = () => {
   const router = useLocation();
@@ -37,7 +38,7 @@ const CustomerList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = 5
+    query.limit = LIMIT
     dispatch(getCustomers(query));
   }, [dispatch, router.search]);
 
@@ -135,7 +136,7 @@ const CustomerList = () => {
             </StyledTableRow>
           ))}
         />
-        {total > 5 && <CustomPagination pageCount={total / 5} />}
+        {total > LIMIT && <CustomPagination pageCount={total / LIMIT} />}
       </Box>
       <CustomerUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
       <CustomerCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
