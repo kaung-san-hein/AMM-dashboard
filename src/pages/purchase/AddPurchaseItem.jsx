@@ -26,7 +26,7 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
 
   const onSubmit = async (data) => {
     const selectedProduct = products.find(
-      (product) => product.id === data.product
+      (product) => product.id === data.product.value
     );
 
     const item = {
@@ -41,7 +41,7 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
 
   const handleReset = useCallback(() => {
     reset({
-      product: "",
+      product: null,
       quantity: null,
       price: null,
     });

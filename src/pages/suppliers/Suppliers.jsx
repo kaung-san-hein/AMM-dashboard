@@ -23,6 +23,7 @@ import {
 import SupplierUpdate from "./SupplierUpdate";
 import SupplierCreate from "./SupplierCreate";
 import { LIMIT } from "../../utils/constant";
+import { convertIDFormatted } from "../../utils/convertIDFormatted";
 
 const SupplierList = () => {
   const router = useLocation();
@@ -104,10 +105,10 @@ const SupplierList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={suppliers.map((row, index) => (
+          body={suppliers.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {index + 1}
+                {convertIDFormatted(row.id)}
               </StyledTableCell>
               <StyledTableCell>{row.name}</StyledTableCell>
               <StyledTableCell>{row.phone_no}</StyledTableCell>

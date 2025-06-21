@@ -25,7 +25,7 @@ const PurchasePage = () => {
 
   const [items, setItems] = useState([]);
   const [isAddItem, setIsAddItem] = useState(false);
-  const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [selectedSupplier, setSelectedSupplier] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -77,7 +77,7 @@ const PurchasePage = () => {
     });
 
     const payload = {
-      supplier_id: selectedSupplier,
+      supplier_id: selectedSupplier?.value,
       date: new Date().toISOString(),
       total,
       items: saleItems,
@@ -88,7 +88,7 @@ const PurchasePage = () => {
   };
 
   const handleReset = useCallback(() => {
-    setSelectedSupplier("");
+    setSelectedSupplier(null);
     setItems([]);
   }, []);
 
@@ -136,8 +136,7 @@ const PurchasePage = () => {
             <Grid item xs={3}>
               <CustomSelectBox
                 value={selectedSupplier}
-                onChange={(e) => setSelectedSupplier(e.target.value)}
-                onClear={() => setSelectedSupplier("")}
+                onChange={setSelectedSupplier}
                 label="Select Supplier"
                 options={optionSuppliers}
               />
@@ -158,7 +157,7 @@ const PurchasePage = () => {
         <CustomTable
           header={
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell>No</StyledTableCell>
               <StyledTableCell>Product Size</StyledTableCell>
               <StyledTableCell>Quantity</StyledTableCell>
               <StyledTableCell>Price</StyledTableCell>

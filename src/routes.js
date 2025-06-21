@@ -2,7 +2,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import RoleList from "./pages/roles/Roles";
+// import RoleList from "./pages/roles/Roles";
 import CategoryList from "./pages/categories/Categories";
 import ProductList from "./pages/products/Products";
 import CustomerList from "./pages/customers/Customers";
@@ -12,7 +12,7 @@ import SupplierList from "./pages/suppliers/Suppliers";
 import PurchasePage from "./pages/purchase/PurchasePage";
 import PurchaseInvoiceList from "./pages/purchase/PurchaseInvoices";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
+// import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import CategoryIcon from "@mui/icons-material/Category";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -33,13 +33,13 @@ export const routes = [
     layout: "/auth",
     invisible: true,
   },
-  {
-    name: "Roles",
-    icon: VpnKeyIcon,
-    path: "/roles",
-    component: <RoleList />,
-    layout: "/admin",
-  },
+  // {
+  //   name: "Roles",
+  //   icon: VpnKeyIcon,
+  //   path: "/roles",
+  //   component: <RoleList />,
+  //   layout: "/admin",
+  // },
   {
     name: "Categories",
     icon: CategoryIcon,
@@ -62,14 +62,14 @@ export const routes = [
     layout: "/admin",
   },
   {
-    name: "SalePage",
+    name: "Sale Page",
     icon: LocalOfferIcon,
     path: "/sale-page",
     component: <SalePage />,
     layout: "/admin",
   },
   {
-    name: "CustomerInvoicePage",
+    name: "Customer Invoice Page",
     icon: ReceiptLongIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
@@ -83,14 +83,14 @@ export const routes = [
     layout: "/admin",
   },
   {
-    name: "PurchasePage",
+    name: "Purchase Page",
     icon: LocalOfferIcon,
     path: "/purchase-page",
     component: <PurchasePage />,
     layout: "/admin",
   },
   {
-    name: "SupplierInvoicePage",
+    name: "Supplier Invoice Page",
     icon: ReceiptLongIcon,
     path: "/supplier-invoices",
     component: <PurchaseInvoiceList />,

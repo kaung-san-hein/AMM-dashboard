@@ -36,10 +36,11 @@ const SupplierCreate = ({ open, setOpen }) => {
   useEffect(() => {
     if (success) {
       handleReset();
+      setOpen(false)
     }
 
     return () => handleReset();
-  }, [success, handleReset]);
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

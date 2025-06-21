@@ -34,6 +34,7 @@ const ProductCreate = ({ open, setOpen }) => {
     setLoading(true);
     const payload = {
         ...data,
+        category_id: data.category_id.value,
         kg: Number(data.kg),
         price: Number(data.price),
         stock: Number(data.stock),
@@ -44,7 +45,7 @@ const ProductCreate = ({ open, setOpen }) => {
 
   const handleReset = useCallback(() => {
     reset({
-      category_id: "",
+      category_id: null,
       size: "",
       description: "",
       net_weight: "",
@@ -58,10 +59,11 @@ const ProductCreate = ({ open, setOpen }) => {
   useEffect(() => {
     if (success) {
       handleReset();
+      setOpen(false)
     }
 
     return () => handleReset();
-  }, [success, handleReset]);
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

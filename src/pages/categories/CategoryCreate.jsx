@@ -17,7 +17,7 @@ const CategoryCreate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { success } = useSelector((state) => state.role);
+  const { success } = useSelector((state) => state.category);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -34,10 +34,11 @@ const CategoryCreate = ({ open, setOpen }) => {
   useEffect(() => {
     if (success) {
       handleReset();
+      setOpen(false);
     }
 
     return () => handleReset();
-  }, [success, handleReset]);
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

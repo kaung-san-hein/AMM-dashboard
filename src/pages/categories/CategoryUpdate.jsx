@@ -18,7 +18,7 @@ const CategoryUpdate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { category } = useSelector((state) => state.category);
+  const { success, category } = useSelector((state) => state.category);
 
   useEffect(() => {
     const { name } = category;
@@ -37,6 +37,15 @@ const CategoryUpdate = ({ open, setOpen }) => {
       name: "",
     });
   }, [reset]);
+
+  useEffect(() => {
+    if (success) {
+      handleReset();
+      setOpen(false);
+    }
+
+    return () => handleReset();
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

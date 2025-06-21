@@ -21,6 +21,7 @@ import {
 } from "../../store/actions/category";
 import CategoryCreate from "./CategoryCreate";
 import CategoryUpdate from "./CategoryUpdate";
+import { convertIDFormatted } from "../../utils/convertIDFormatted";
 
 const CategoryList = () => {
   const router = useLocation();
@@ -99,10 +100,10 @@ const CategoryList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={categories.map((row, index) => (
+          body={categories.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {index + 1}
+                {convertIDFormatted(row.id)}
               </StyledTableCell>
               <StyledTableCell>{row.name}</StyledTableCell>
               <StyledTableCell>

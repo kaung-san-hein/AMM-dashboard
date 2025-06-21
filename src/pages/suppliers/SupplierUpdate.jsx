@@ -18,7 +18,7 @@ const SupplierUpdate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { supplier } = useSelector((state) => state.supplier);
+  const { success, supplier } = useSelector((state) => state.supplier);
 
   useEffect(() => {
     const { name, phone_no, address } = supplier;
@@ -41,6 +41,15 @@ const SupplierUpdate = ({ open, setOpen }) => {
       address: "",
     });
   }, [reset]);
+
+  useEffect(() => {
+    if (success) {
+      handleReset();
+      setOpen(false);
+    }
+
+    return () => handleReset();
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

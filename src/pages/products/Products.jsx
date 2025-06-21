@@ -25,6 +25,7 @@ import { getCategories } from "../../store/actions/category";
 import ProductUpdate from "./ProductUpdate";
 import { LIMIT } from "../../utils/constant";
 import ProductDetail from "./ProductDetail";
+import { convertIDFormatted } from "../../utils/convertIDFormatted";
 
 const ProductList = () => {
   const router = useLocation();
@@ -107,16 +108,16 @@ const ProductList = () => {
               <StyledTableCell>Size</StyledTableCell>
               <StyledTableCell>Net Weight</StyledTableCell>
               <StyledTableCell>Kg</StyledTableCell>
-              <StyledTableCell>MadeIn</StyledTableCell>
+              <StyledTableCell>Made In</StyledTableCell>
               <StyledTableCell>Price</StyledTableCell>
               <StyledTableCell>Stock</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={products.map((row, index) => (
+          body={products.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {index + 1}
+                {convertIDFormatted(row?.category?.id)}
               </StyledTableCell>
               <StyledTableCell>{row.category.name}</StyledTableCell>
               <StyledTableCell>{row.size}</StyledTableCell>

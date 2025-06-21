@@ -23,6 +23,7 @@ import {
 import CustomerCreate from "./CustomerCreate";
 import CustomerUpdate from "./CustomerUpdate";
 import { LIMIT } from "../../utils/constant";
+import { convertIDFormatted } from "../../utils/convertIDFormatted";
 
 const CustomerList = () => {
   const router = useLocation();
@@ -104,10 +105,10 @@ const CustomerList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={customers.map((row, index) => (
+          body={customers.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {index + 1}
+                {convertIDFormatted(row.id)}
               </StyledTableCell>
               <StyledTableCell>{row.name}</StyledTableCell>
               <StyledTableCell>{row.phone_no}</StyledTableCell>

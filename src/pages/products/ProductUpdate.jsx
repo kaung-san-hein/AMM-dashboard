@@ -21,7 +21,7 @@ const ProductUpdate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { product } = useSelector((state) => state.product);
+  const { success, product } = useSelector((state) => state.product);
   const { categories } = useSelector((state) => state.category);
 
   const optionCategories = categories.map((category) => {
@@ -50,7 +50,7 @@ const ProductUpdate = ({ open, setOpen }) => {
     setValue("made_in", made_in);
     setValue("price", price);
     setValue("stock", stock);
-    setValue("category_id", category?.id);
+    setValue("category_id", { value: category?.id, label: category?.name });
   }, [setValue, product]);
 
   const onSubmit = async (data) => {
@@ -58,6 +58,7 @@ const ProductUpdate = ({ open, setOpen }) => {
     const payload = {
       ...data,
       id: product.id,
+      category_id: data.category_id.value,
       kg: Number(data.kg),
       price: Number(data.price),
       stock: Number(data.stock),
@@ -68,7 +69,7 @@ const ProductUpdate = ({ open, setOpen }) => {
 
   const handleReset = useCallback(() => {
     reset({
-      category_id: "",
+      category_id: null,
       size: "",
       description: "",
       net_weight: "",
@@ -78,6 +79,15 @@ const ProductUpdate = ({ open, setOpen }) => {
       stock: null,
     });
   }, [reset]);
+
+  useEffect(() => {
+    if (success) {
+      handleReset();
+      setOpen(false);
+    }
+
+    return () => handleReset();
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal

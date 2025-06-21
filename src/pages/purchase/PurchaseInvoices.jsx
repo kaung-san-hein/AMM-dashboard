@@ -82,7 +82,7 @@ const PurchaseInvoiceList = () => {
         <CustomTable
           header={
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell>No</StyledTableCell>
               <StyledTableCell>Voucher No</StyledTableCell>
               <StyledTableCell>Supplier Name</StyledTableCell>
               <StyledTableCell>Phone No</StyledTableCell>

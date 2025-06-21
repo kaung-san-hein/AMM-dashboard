@@ -18,7 +18,7 @@ const CustomerUpdate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { customer } = useSelector((state) => state.customer);
+  const { success, customer } = useSelector((state) => state.customer);
 
   useEffect(() => {
     const { name, phone_no, address } = customer;
@@ -41,6 +41,15 @@ const CustomerUpdate = ({ open, setOpen }) => {
       address: "",
     });
   }, [reset]);
+
+  useEffect(() => {
+    if (success) {
+      handleReset();
+      setOpen(false);
+    }
+
+    return () => handleReset();
+  }, [success, handleReset, setOpen]);
 
   return (
     <CustomModal
