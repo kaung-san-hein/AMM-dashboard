@@ -16,6 +16,10 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CategoryIcon from "@mui/icons-material/Category";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import StockAlert from "./pages/products/StockAlert";
+import StarIcon from "@mui/icons-material/Star";
+import MostSaleProducts from "./pages/sale/MostSaleProducts";
 
 export const routes = [
   {
@@ -55,6 +59,13 @@ export const routes = [
     layout: "/admin",
   },
   {
+    name: "Stock Alert",
+    icon: ProductionQuantityLimitsIcon,
+    path: "/stock-alert",
+    component: <StockAlert />,
+    layout: "/admin",
+  },
+  {
     name: "Customers",
     icon: PeopleAltIcon,
     path: "/customers",
@@ -73,6 +84,13 @@ export const routes = [
     icon: ReceiptLongIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
+    layout: "/admin",
+  },
+  {
+    name: "Best Sellers",
+    icon: StarIcon,
+    path: "/best-sellers",
+    component: <MostSaleProducts />,
     layout: "/admin",
   },
   {

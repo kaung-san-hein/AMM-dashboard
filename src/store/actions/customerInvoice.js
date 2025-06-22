@@ -4,11 +4,35 @@ import { serverErrorMessage } from "../../utils/messages";
 import { NotificationManager } from "react-notifications";
 import { setAccessToken } from "../../services/api";
 
+export const getMostSaleProducts = createAsyncThunk(
+  "customerInvoice/getMostSaleProducts",
+  async (_, thunkAPI) => {
+    try {
+      const result = await call("get", "customer-invoices/most-sale-products");
+
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+
+      if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const getCustomerInvoices = createAsyncThunk(
   "customerInvoice/getCustomerInvoices",
   async (query, thunkAPI) => {
     try {
-      const result = await call("get", `customer-invoices?${new URLSearchParams(query).toString()}`);
+      const result = await call(
+        "get",
+        `customer-invoices?${new URLSearchParams(query).toString()}`
+      );
 
       return result;
     } catch (error) {

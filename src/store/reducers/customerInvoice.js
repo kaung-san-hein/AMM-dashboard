@@ -4,12 +4,14 @@ import {
   deleteCustomerInvoice,
   getCustomerInvoice,
   getCustomerInvoices,
+  getMostSaleProducts,
 } from "../actions/customerInvoice";
 
 const initialState = {
   loading: false,
   success: false,
   customerInvoices: [],
+  mostSaleProducts: [],
   customerInvoice: {},
   total: 0,
 };
@@ -28,6 +30,18 @@ const customerInvoiceSlice = createSlice({
       state.total = action.payload.data.total;
     });
     builder.addCase(getCustomerInvoices.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // Get mostSaleProducts
+    builder.addCase(getMostSaleProducts.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getMostSaleProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.mostSaleProducts = action.payload.data;
+    });
+    builder.addCase(getMostSaleProducts.rejected, (state) => {
       state.loading = false;
     });
 
