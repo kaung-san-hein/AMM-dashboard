@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
@@ -11,9 +10,9 @@ import Typography from "@mui/material/Typography";
 // import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import avatar from "../../assets/images/avatar.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/auth";
+import CustomProfileAvatar from "./CustomProfileAvatar";
 
 const CustomMenuItemIcon = ({ name, icon: Component }) => {
   return (
@@ -44,7 +43,7 @@ const CustomAvatar = () => {
     <Box sx={{ flexGrow: 0, marginLeft: "auto" }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Avatar" src={avatar} />
+          <CustomProfileAvatar name={user?.name} backgroundColor="#9C27B0" />
         </IconButton>
       </Tooltip>
       <Menu

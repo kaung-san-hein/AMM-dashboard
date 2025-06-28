@@ -10,7 +10,7 @@ import CustomTable, {
 import CustomPagination from "../../components/pagination/CustomPagination";
 import BackButton from "../../components/backButton/BackButton";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
@@ -26,14 +26,18 @@ import ProductUpdate from "./ProductUpdate";
 import { LIMIT } from "../../utils/constant";
 import ProductDetail from "./ProductDetail";
 import { convertIDFormatted } from "../../utils/convertIDFormatted";
+import SearchIcon from "@mui/icons-material/Search";
+import { TextField } from "@mui/material";
 
 const ProductList = () => {
   const router = useLocation();
+  const navigate = useNavigate();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [detail, setDetail] = useState(null)
+  const [detail, setDetail] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { loading, products, total } = useSelector((state) => state.product);
   const dispatch = useDispatch();
@@ -43,7 +47,7 @@ const ProductList = () => {
     if (!("page" in query)) {
       query.page = 1;
     }
-    query.limit = LIMIT
+    query.limit = LIMIT;
     dispatch(getProducts(query));
     dispatch(getCategories());
   }, [dispatch, router.search]);
@@ -53,6 +57,19 @@ const ProductList = () => {
       dispatch(deleteProduct(id));
     }
   };
+
+  const handleSearch = () => {
+    const query = queryString.parse(router.search);
+    query.page = 1;
+
+    if (searchTerm !== "") {
+      query.search = searchTerm;
+    } else {
+      delete query["search"];
+    }
+
+    navigate(`?${queryString.stringify(query)}`);
+  }
 
   if (loading) {
     return (
@@ -98,6 +115,36 @@ const ProductList = () => {
                 New
               </Button>
             </Grid>
+
+            <Grid item xs={12} md={9}>
+              <Grid
+                container
+                spacing={1}
+                justifyContent="flex-end"
+                alignItems="center"
+              >
+                <Grid item xs={5} sm={4} md={4}>
+                  <TextField
+                    label="Search"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={4} sm={3} md={3}>
+                  <Button
+                    variant="contained"
+                    endIcon={<SearchIcon />}
+                    color="primary"
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Box>
         <CustomTable
@@ -133,7 +180,7 @@ const ProductList = () => {
                   sx={{ m: 1 }}
                   onClick={() => {
                     setIsDetailOpen(true);
-                    setDetail(row)
+                    setDetail(row);
                   }}
                 >
                   Detail
@@ -165,7 +212,11 @@ const ProductList = () => {
       </Box>
       <ProductUpdate open={isUpdateOpen} setOpen={setIsUpdateOpen} />
       <ProductCreate open={isCreateOpen} setOpen={setIsCreateOpen} />
-      <ProductDetail open={isDetailOpen} setOpen={setIsDetailOpen} data={detail} />
+      <ProductDetail
+        open={isDetailOpen}
+        setOpen={setIsDetailOpen}
+        data={detail}
+      />
     </>
   );
 };

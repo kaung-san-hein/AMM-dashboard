@@ -21,7 +21,7 @@ const DashboardCard = ({ title, total, linkText, linkHref }) => {
           {title}
         </Typography>
         <Typography variant="h5" component="div">
-          $ {total}
+          {total}
         </Typography>
         <Box mt={2}>
           <MuiLink component={RouterLink} to={linkHref} underline="hover">

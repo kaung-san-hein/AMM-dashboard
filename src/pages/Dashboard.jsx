@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllTotal } from "../store/actions/dashboard";
 import BackButton from "../components/backButton/BackButton";
+import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
 
 const Dashboard = () => {
   const { dashboard } = useSelector((state) => state.dashboard);
@@ -38,7 +39,9 @@ const Dashboard = () => {
           <Grid item>
             <DashboardCard
               title="Total Customer Invoice"
-              total={dashboard.customerInvoiceTotal}
+              total={`${formatNumberWithCommas(
+                dashboard.customerInvoiceTotal
+              )} MMK`}
               linkText="View Details"
               linkHref="/admin/customer-invoices"
             />
@@ -46,9 +49,19 @@ const Dashboard = () => {
           <Grid item>
             <DashboardCard
               title="Total Supplier Invoice"
-              total={dashboard.supplierInvoiceTotal}
+              total={`${formatNumberWithCommas(
+                dashboard.supplierInvoiceTotal
+              )} MMK`}
               linkText="View Details"
               linkHref="/admin/supplier-invoices"
+            />
+          </Grid>
+          <Grid item>
+            <DashboardCard
+              title="Stock Alert"
+              total={`${dashboard.stockAlert} (s)`}
+              linkText="View Details"
+              linkHref="/admin/stock-alert"
             />
           </Grid>
         </Grid>
