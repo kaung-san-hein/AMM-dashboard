@@ -1,3 +1,3 @@
-export const convertIDFormatted = (number) => {
-  return String(number).padStart(5, "0");
+export const convertIDFormatted = (number, prefixCount = 5) => {
+  return String(number).padStart(prefixCount, "0");
 };

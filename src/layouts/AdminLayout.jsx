@@ -129,8 +129,8 @@ const AdminLayout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Stock Control Management
+          <Typography variant="h5" noWrap component="div">
+            Stock Control Management System
           </Typography>
           <CustomAvatar />
         </Toolbar>

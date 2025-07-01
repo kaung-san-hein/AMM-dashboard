@@ -19,7 +19,11 @@ const AuthLayout = () => {
         alignItems: "center",
       }}
     >
-      <Container maxWidth="sm">
+      <Container
+        sx={{
+          width: "650px",
+        }}
+      >
         <Stack justifyContent="center">
           <Typography
             gutterBottom
@@ -29,10 +33,11 @@ const AuthLayout = () => {
               fontWeight: "bold",
               marginTop: "30px",
               color: "white",
+              textAlign: "center",
+              mx: "auto",
             }}
-            align="center"
           >
-            Stock Control Management
+            Stock Control Management System
           </Typography>
         </Stack>
         <Outlet />
