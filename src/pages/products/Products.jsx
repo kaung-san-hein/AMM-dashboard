@@ -164,7 +164,7 @@ const ProductList = () => {
           body={products.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {convertIDFormatted(row?.category?.id)}
+                {convertIDFormatted(row?.category?.id, 3)}
               </StyledTableCell>
               <StyledTableCell>{row.category.name}</StyledTableCell>
               <StyledTableCell>{row.size}</StyledTableCell>

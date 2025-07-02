@@ -103,7 +103,7 @@ const CategoryList = () => {
           body={categories.map((row) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
-                {convertIDFormatted(row.id)}
+                {convertIDFormatted(row.id, 3)}
               </StyledTableCell>
               <StyledTableCell>{row.name}</StyledTableCell>
               <StyledTableCell>
