@@ -4,6 +4,7 @@ import {
   deleteSupplierInvoice,
   getSupplierInvoice,
   getSupplierInvoices,
+  getSupplierInvoiceReport,
 } from "../actions/supplierInvoice";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   success: false,
   supplierInvoices: [],
   supplierInvoice: {},
+  supplierInvoiceReport: {},
   total: 0,
 };
 
@@ -70,6 +72,18 @@ const supplierInvoiceSlice = createSlice({
       state.total = state.total - 1;
     });
     builder.addCase(deleteSupplierInvoice.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // Get SupplierInvoiceReport
+    builder.addCase(getSupplierInvoiceReport.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getSupplierInvoiceReport.fulfilled, (state, action) => {
+      state.loading = false;
+      state.supplierInvoiceReport = action.payload.data;
+    });
+    builder.addCase(getSupplierInvoiceReport.rejected, (state) => {
       state.loading = false;
     });
   },

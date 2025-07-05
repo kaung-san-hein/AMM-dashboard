@@ -3,6 +3,7 @@ import {
   createCustomerInvoice,
   deleteCustomerInvoice,
   getCustomerInvoice,
+  getCustomerInvoiceReport,
   getCustomerInvoices,
   getMostSaleProducts,
 } from "../actions/customerInvoice";
@@ -13,6 +14,7 @@ const initialState = {
   customerInvoices: [],
   mostSaleProducts: [],
   customerInvoice: {},
+  customerInvoiceReport: {},
   total: 0,
 };
 
@@ -84,6 +86,18 @@ const customerInvoiceSlice = createSlice({
       state.total = state.total - 1;
     });
     builder.addCase(deleteCustomerInvoice.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // Get CustomerInvoiceReport
+    builder.addCase(getCustomerInvoiceReport.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getCustomerInvoiceReport.fulfilled, (state, action) => {
+      state.loading = false;
+      state.customerInvoiceReport = action.payload.data;
+    });
+    builder.addCase(getCustomerInvoiceReport.rejected, (state) => {
       state.loading = false;
     });
   },

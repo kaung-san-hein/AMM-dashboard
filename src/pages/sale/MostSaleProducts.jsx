@@ -68,11 +68,11 @@ const MostSaleProducts = () => {
             </TableRow>
           }
           body={mostSaleProducts.map((row) => (
-            <StyledTableRow key={row?.product.id}>
+            <StyledTableRow key={row?.category?.id}>
               <StyledTableCell component="th" scope="row">
-                {convertIDFormatted(row?.product?.category?.id, 3)}
+                {convertIDFormatted(row?.category?.id, 3)}
               </StyledTableCell>
-              <StyledTableCell>{row?.product?.category.name}</StyledTableCell>
+              <StyledTableCell>{row?.category?.name}</StyledTableCell>
               <StyledTableCell>{row?.totalSold}</StyledTableCell>
             </StyledTableRow>
           ))}

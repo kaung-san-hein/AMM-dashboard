@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { getAllTotal } from "../store/actions/dashboard";
 import BackButton from "../components/backButton/BackButton";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
+import MostSaleProductsChart from "../components/chart/MostSaleProductsChart";
+import CustomerInvoiceReportChart from "../components/chart/CustomerInvoiceReportChart";
+import SupplierInvoiceReportChart from "../components/chart/SupplierInvoiceReportChart";
 
 const Dashboard = () => {
   const { dashboard } = useSelector((state) => state.dashboard);
@@ -65,6 +68,23 @@ const Dashboard = () => {
             />
           </Grid>
         </Grid>
+        <Box sx={{ mt: 4 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <SupplierInvoiceReportChart />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <CustomerInvoiceReportChart />
+            </Grid>
+          </Grid>
+        </Box>
+        <Box sx={{ mt: 4 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <MostSaleProductsChart />
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </Box>
   );

@@ -116,3 +116,24 @@ export const deleteCustomerInvoice = createAsyncThunk(
     }
   }
 );
+
+export const getCustomerInvoiceReport = createAsyncThunk(
+  "customerInvoice/getCustomerInvoiceReport",
+  async (_, thunkAPI) => {
+    try {
+      const result = await call("get", "customer-invoices/report");
+
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+
+      if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

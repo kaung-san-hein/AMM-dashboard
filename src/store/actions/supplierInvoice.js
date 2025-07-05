@@ -95,3 +95,24 @@ export const deleteSupplierInvoice = createAsyncThunk(
     }
   }
 );
+
+export const getSupplierInvoiceReport = createAsyncThunk(
+  "supplierInvoice/getSupplierInvoiceReport",
+  async (_, thunkAPI) => {
+    try {
+      const result = await call("get", "supplier-invoices/report");
+
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+
+      if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
