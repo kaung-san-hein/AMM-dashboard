@@ -14,20 +14,24 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import CircularProgress from "@mui/material/CircularProgress";
 import {
-  getSupplierInvoices,
+  deleteSupplierInvoice,
+  getSupplierOrders,
 } from "../../store/actions/supplierInvoice";
 import { LIMIT } from "../../utils/constant";
 import { formatUTCToMyanmarTime } from "../../utils/convertFormattedDate";
 import PurchaseDetail from "./PurchaseDetail";
+import { getSupplierInvoice } from "../../store/actions/supplierInvoice";
+import UpdateStatus from "./UpdateStatus";
 import { getStatusBadge } from "../../utils/getStatus";
 
-const PurchaseInvoiceList = () => {
+const UpdatePurchasePage = () => {
   const router = useLocation();
 
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [isUpdateStatusOpen, setIsUpdateStatusOpen] = useState(false);
 
-  const { loading, supplierInvoices, total } = useSelector(
+  const { loading, supplierOrders, total } = useSelector(
     (state) => state.supplierInvoice
   );
   const dispatch = useDispatch();
@@ -38,8 +42,14 @@ const PurchaseInvoiceList = () => {
       query.page = 1;
     }
     query.limit = LIMIT;
-    dispatch(getSupplierInvoices(query));
+    dispatch(getSupplierOrders(query));
   }, [dispatch, router.search]);
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are sure want to delete?")) {
+      dispatch(deleteSupplierInvoice(id));
+    }
+  };
 
   if (loading) {
     return (
@@ -71,7 +81,7 @@ const PurchaseInvoiceList = () => {
             marginTop: "10px",
           }}
         >
-          Supplier Invoice List
+          Purchase Page
         </Typography>
         <CustomTable
           header={
@@ -86,7 +96,7 @@ const PurchaseInvoiceList = () => {
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
-          body={supplierInvoices.map((row, index) => (
+          body={supplierOrders.map((row, index) => (
             <StyledTableRow key={row.id}>
               <StyledTableCell component="th" scope="row">
                 {index + 1}
@@ -111,6 +121,25 @@ const PurchaseInvoiceList = () => {
                 >
                   Detail
                 </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{ m: 1 }}
+                  onClick={() => handleDelete(row.id)}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ m: 1 }}
+                  onClick={async () => {
+                    dispatch(getSupplierInvoice(row.id));
+                    setIsUpdateStatusOpen(true);
+                  }}
+                >
+                  Update
+                </Button>
               </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -122,8 +151,13 @@ const PurchaseInvoiceList = () => {
         setOpen={setIsDetailOpen}
         data={detail}
       />
+      <UpdateStatus
+        open={isUpdateStatusOpen}
+        setOpen={setIsUpdateStatusOpen}
+        data={detail}
+      />
     </>
   );
 };
 
-export default PurchaseInvoiceList;
+export default UpdatePurchasePage;

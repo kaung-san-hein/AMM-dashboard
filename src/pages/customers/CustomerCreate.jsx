@@ -44,7 +44,7 @@ const CustomerCreate = ({ open, setOpen }) => {
 
   return (
     <CustomModal
-      title="New Customer"
+      title="New Retailers"
       isOpen={open}
       onClick={(prev) => setOpen(!prev)}
     >

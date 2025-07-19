@@ -5,12 +5,15 @@ import {
   getSupplierInvoice,
   getSupplierInvoices,
   getSupplierInvoiceReport,
+  getSupplierOrders,
+  updateSupplierInvoiceStatus,
 } from "../actions/supplierInvoice";
 
 const initialState = {
   loading: false,
   success: false,
   supplierInvoices: [],
+  supplierOrders: [],
   supplierInvoice: {},
   supplierInvoiceReport: {},
   total: 0,
@@ -30,6 +33,19 @@ const supplierInvoiceSlice = createSlice({
       state.total = action.payload.data.total;
     });
     builder.addCase(getSupplierInvoices.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // Get supplierOrders
+    builder.addCase(getSupplierOrders.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getSupplierOrders.fulfilled, (state, action) => {
+      state.loading = false;
+      state.supplierOrders = action.payload.data.supplier_invoices;
+      state.total = action.payload.data.total;
+    });
+    builder.addCase(getSupplierOrders.rejected, (state) => {
       state.loading = false;
     });
 
@@ -69,6 +85,9 @@ const supplierInvoiceSlice = createSlice({
       state.supplierInvoices = state.supplierInvoices.filter(
         (invoice) => invoice.id !== action.payload
       );
+      state.supplierOrders = state.supplierInvoices.filter(
+        (invoice) => invoice.id !== action.payload
+      );
       state.total = state.total - 1;
     });
     builder.addCase(deleteSupplierInvoice.rejected, (state) => {
@@ -85,6 +104,23 @@ const supplierInvoiceSlice = createSlice({
     });
     builder.addCase(getSupplierInvoiceReport.rejected, (state) => {
       state.loading = false;
+    });
+
+    // Update supplier
+    builder.addCase(updateSupplierInvoiceStatus.pending, (state) => {
+      state.success = false;
+    });
+    builder.addCase(updateSupplierInvoiceStatus.fulfilled, (state, action) => {
+      let index = state.supplierOrders.findIndex(
+        (order) => order.id === action.payload.id
+      );
+      state.supplierOrders[index] = action.payload;
+      state.supplierInvoices[index] = action.payload;
+      state.success = true;
+      state.supplierInvoice = action.payload;
+    });
+    builder.addCase(updateSupplierInvoiceStatus.rejected, (state) => {
+      state.success = false;
     });
   },
 });

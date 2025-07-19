@@ -1,15 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import CustomTextField from "../../components/input/CustomTextField";
 import Grid from "@mui/material/Grid";
 import CustomModal from "../../components/modal/CustomModal";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCategory } from "../../store/actions/category";
+import { updateSupplierInvoiceStatus } from "../../store/actions/supplierInvoice";
+import CustomSelect from "../../components/input/CustomSelect";
+import { getStockAlertCount } from "../../store/actions/stockAlert";
 
-const CategoryUpdate = ({ open, setOpen }) => {
+const optionStatus = [
+  { label: "pending", value: "pending" },
+  { label: "paid", value: "paid" },
+  { label: "cancelled", value: "cancelled" },
+];
+
+const UpdateStatus = ({ open, setOpen }) => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -18,25 +25,30 @@ const CategoryUpdate = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { success, category } = useSelector((state) => state.category);
+  const { success, supplierInvoice } = useSelector(
+    (state) => state.supplierInvoice
+  );
 
   useEffect(() => {
-    const { name, description } = category;
+    const { status } = supplierInvoice;
 
-    setValue("name", name);
-    setValue("description", description);
-  }, [setValue, category]);
+    setValue("status", { value: status, label: status });
+  }, [setValue, supplierInvoice]);
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await dispatch(updateCategory({ ...data, id: category.id }));
+    await dispatch(
+      updateSupplierInvoiceStatus({
+        id: supplierInvoice.id,
+        status: data.status.value,
+      })
+    );
     setLoading(false);
   };
 
   const handleReset = useCallback(() => {
     reset({
-      name: "",
-      description: "",
+      status: null,
     });
   }, [reset]);
 
@@ -44,38 +56,26 @@ const CategoryUpdate = ({ open, setOpen }) => {
     if (success) {
       handleReset();
       setOpen(false);
+      dispatch(getStockAlertCount());
     }
 
     return () => handleReset();
-  }, [success, handleReset, setOpen]);
+  }, [success, handleReset, setOpen, dispatch]);
 
   return (
     <CustomModal
-      title="Update Category"
+      title="Update Status"
       isOpen={open}
       onClick={(prev) => setOpen(!prev)}
     >
       <Grid alignItems="center" container spacing={2}>
         <Grid item xs={12} md={12}>
-          <CustomTextField
-            id="name"
-            label="Name"
-            register={{
-              ...register("name", {
-                required: "Name is required!",
-              }),
-            }}
+          <CustomSelect
+            id="status"
+            label="Status"
+            control={control}
             errors={errors}
-          />
-        </Grid>
-        <Grid item xs={12} md={12}>
-          <CustomTextField
-            id="description"
-            label="Description"
-            register={{
-              ...register("description"),
-            }}
-            errors={errors}
+            options={optionStatus}
           />
         </Grid>
       </Grid>
@@ -106,4 +106,4 @@ const CategoryUpdate = ({ open, setOpen }) => {
   );
 };
 
-export default CategoryUpdate;
+export default UpdateStatus;

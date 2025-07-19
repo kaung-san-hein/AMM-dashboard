@@ -79,7 +79,7 @@ const CustomerList = () => {
             marginTop: "10px",
           }}
         >
-          Customers
+          Retailers
         </Typography>
         <Box sx={{ flexGrow: 1, mb: 2 }}>
           <Grid alignItems="center" container spacing={2}>

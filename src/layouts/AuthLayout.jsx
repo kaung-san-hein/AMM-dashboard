@@ -37,7 +37,7 @@ const AuthLayout = () => {
               mx: "auto",
             }}
           >
-            Stock Control Management System
+            Information Management System for Home Construction
           </Typography>
         </Stack>
         <Outlet />

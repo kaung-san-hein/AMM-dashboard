@@ -28,6 +28,30 @@ export const getSupplierInvoices = createAsyncThunk(
   }
 );
 
+export const getSupplierOrders = createAsyncThunk(
+  "supplierInvoice/getSupplierOrders",
+  async (query, thunkAPI) => {
+    try {
+      const result = await call(
+        "get",
+        `supplier-invoices/orders?${new URLSearchParams(query).toString()}`
+      );
+
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+
+      if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const getSupplierInvoice = createAsyncThunk(
   "supplierInvoice/getSupplierInvoice",
   async (id, thunkAPI) => {
@@ -107,6 +131,32 @@ export const getSupplierInvoiceReport = createAsyncThunk(
       const { status, data } = error.response;
 
       if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const updateSupplierInvoiceStatus = createAsyncThunk(
+  "supplierInvoice/updateSupplierInvoiceStatus",
+  async ({ id, status }, thunkAPI) => {
+    try {
+      const response = await call("patch", `supplier-invoices/orders/${id}`, {
+        status,
+      });
+      const result = response.data;
+
+      NotificationManager.success("Status has been updated successfully!");
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+      if (status === 400) {
+        NotificationManager.error(data.message);
+      } else if (status === 401) {
         setAccessToken(null);
         NotificationManager.error(data.message);
       } else {

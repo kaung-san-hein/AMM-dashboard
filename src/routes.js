@@ -20,6 +20,8 @@ import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantity
 import StockAlert from "./pages/products/StockAlert";
 import StarIcon from "@mui/icons-material/Star";
 import MostSaleProducts from "./pages/sale/MostSaleProducts";
+import UpdatePurchasePage from "./pages/purchase/UpdatePurchasePage";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const routes = [
   {
@@ -64,9 +66,10 @@ export const routes = [
     path: "/stock-alert",
     component: <StockAlert />,
     layout: "/admin",
+    invisible: true,
   },
   {
-    name: "Customers",
+    name: "Retailers",
     icon: PeopleAltIcon,
     path: "/customers",
     component: <CustomerList />,
@@ -80,7 +83,7 @@ export const routes = [
     layout: "/admin",
   },
   {
-    name: "Customer Invoice Page",
+    name: "Retailer Invoice Page",
     icon: ReceiptLongIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
@@ -101,10 +104,17 @@ export const routes = [
     layout: "/admin",
   },
   {
-    name: "Purchase Page",
+    name: "Order Page",
     icon: LocalOfferIcon,
     path: "/purchase-page",
     component: <PurchasePage />,
+    layout: "/admin",
+  },
+  {
+    name: "Purchase Page",
+    icon: EditIcon,
+    path: "/update-purchase-page",
+    component: <UpdatePurchasePage />,
     layout: "/admin",
   },
   {

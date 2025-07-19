@@ -17,6 +17,7 @@ import { getCustomers } from "../../store/actions/customer";
 import CustomSelectBox from "../../components/selectbox/CustomSelectBox";
 import { NotificationManager } from "react-notifications";
 import { createCustomerInvoice } from "../../store/actions/customerInvoice";
+import { getStockAlertCount } from "../../store/actions/stockAlert";
 
 const SalePage = () => {
   const router = useLocation();
@@ -94,10 +95,11 @@ const SalePage = () => {
   useEffect(() => {
     if (success) {
       handleReset();
+      dispatch(getStockAlertCount());
     }
 
     return () => handleReset();
-  }, [success, handleReset]);
+  }, [success, handleReset, dispatch]);
 
   return (
     <>

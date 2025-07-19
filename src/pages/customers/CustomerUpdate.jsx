@@ -53,7 +53,7 @@ const CustomerUpdate = ({ open, setOpen }) => {
 
   return (
     <CustomModal
-      title="Update Customer"
+      title="Update Retailers"
       isOpen={open}
       onClick={(prev) => setOpen(!prev)}
     >

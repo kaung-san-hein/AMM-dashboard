@@ -30,9 +30,9 @@ const AddItem = ({ open, setOpen, setItems }) => {
     );
 
     const item = {
-        ...data,
-        product: selectedProduct
-    }
+      ...data,
+      product: selectedProduct,
+    };
 
     setItems((prev) => [...prev, item]);
 
@@ -94,6 +94,15 @@ const AddItem = ({ open, setOpen, setItems }) => {
             onClick={handleSubmit(onSubmit)}
           >
             Add
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(false)}
+          >
+            OK
           </Button>
         </Grid>
       </Grid>

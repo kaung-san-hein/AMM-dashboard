@@ -114,7 +114,7 @@ const PurchasePage = () => {
             marginTop: "10px",
           }}
         >
-          Purchase Screen
+          Order Page
         </Typography>
         <Box sx={{ flexGrow: 1, mb: 2 }}>
           <Grid
@@ -149,7 +149,7 @@ const PurchasePage = () => {
                 onClick={() => handleSale(handleSale)}
                 disabled={loading}
               >
-                {loading ? "Loading..." : "Purchase"}
+                {loading ? "Loading..." : "Order"}
               </Button>
             </Grid>
           </Grid>

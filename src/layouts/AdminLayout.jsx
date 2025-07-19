@@ -18,6 +18,7 @@ import SidebarCollapseButton from "../components/sidebar/SidebarCollapseButton";
 import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import CustomAvatar from "../components/appbar/CustomAvatar";
+import NotificationIcon from "../components/appbar/NotificationIcon";
 
 const drawerWidth = 240;
 
@@ -129,9 +130,10 @@ const AdminLayout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div">
-            Stock Control Management System
+          <Typography variant="h5" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Information Management System for Home Construction
           </Typography>
+          <NotificationIcon />
           <CustomAvatar />
         </Toolbar>
       </AppBar>

@@ -97,6 +97,7 @@ const CategoryList = () => {
             <TableRow>
               <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
           }
@@ -106,6 +107,7 @@ const CategoryList = () => {
                 {convertIDFormatted(row.id, 3)}
               </StyledTableCell>
               <StyledTableCell>{row.name}</StyledTableCell>
+              <StyledTableCell>{row.description}</StyledTableCell>
               <StyledTableCell>
                 <Button
                   variant="contained"

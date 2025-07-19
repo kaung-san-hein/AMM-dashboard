@@ -5,16 +5,18 @@ import { useEffect } from "react";
 import { getAllTotal } from "../store/actions/dashboard";
 import BackButton from "../components/backButton/BackButton";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
-import MostSaleProductsChart from "../components/chart/MostSaleProductsChart";
 import CustomerInvoiceReportChart from "../components/chart/CustomerInvoiceReportChart";
 import SupplierInvoiceReportChart from "../components/chart/SupplierInvoiceReportChart";
+import { getMostSaleProducts } from "../store/actions/customerInvoice";
 
 const Dashboard = () => {
   const { dashboard } = useSelector((state) => state.dashboard);
+  const { mostSaleProducts } = useSelector((state) => state.customerInvoice);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllTotal());
+    dispatch(getMostSaleProducts());
   }, [dispatch]);
 
   return (
@@ -67,6 +69,14 @@ const Dashboard = () => {
               linkHref="/admin/stock-alert"
             />
           </Grid>
+          <Grid item>
+            <DashboardCard
+              title="Best Sale Product"
+              total={`${mostSaleProducts.length} (s)`}
+              linkText="View Details"
+              linkHref="/admin/best-sellers"
+            />
+          </Grid>
         </Grid>
         <Box sx={{ mt: 4 }}>
           <Grid container spacing={3}>
@@ -75,13 +85,6 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <CustomerInvoiceReportChart />
-            </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ mt: 4 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <MostSaleProductsChart />
             </Grid>
           </Grid>
         </Box>

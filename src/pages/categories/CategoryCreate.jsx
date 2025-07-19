@@ -28,6 +28,7 @@ const CategoryCreate = ({ open, setOpen }) => {
   const handleReset = useCallback(() => {
     reset({
       name: "",
+      description: "",
     });
   }, [reset]);
 
@@ -55,6 +56,16 @@ const CategoryCreate = ({ open, setOpen }) => {
               ...register("name", {
                 required: "Name is required!",
               }),
+            }}
+            errors={errors}
+          />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <CustomTextField
+            id="description"
+            label="Description"
+            register={{
+              ...register("description"),
             }}
             errors={errors}
           />

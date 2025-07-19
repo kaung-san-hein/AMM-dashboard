@@ -109,6 +109,15 @@ const AddPurchaseItem = ({ open, setOpen, setItems }) => {
             Add
           </Button>
         </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(false)}
+          >
+            OK
+          </Button>
+        </Grid>
       </Grid>
     </CustomModal>
   );
