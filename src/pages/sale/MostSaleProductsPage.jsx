@@ -2,9 +2,9 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import BackButton from "../../components/backButton/BackButton";
-import MostSaleProductsChart from "../../components/chart/MostSaleProductsChart";
+import MostSaleProducts from "../../components/chart/MostSaleProducts";
 
-const MostSaleProducts = () => {
+const MostSaleProductsPage = () => {
   return (
     <>
       <Box>
@@ -21,10 +21,10 @@ const MostSaleProducts = () => {
         >
           Best Sellers
         </Typography>
-        <MostSaleProductsChart />
+        <MostSaleProducts />
       </Box>
     </>
   );
 };
 
-export default MostSaleProducts;
+export default MostSaleProductsPage;

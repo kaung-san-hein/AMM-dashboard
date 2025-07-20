@@ -17,6 +17,7 @@ import { getProducts } from "../../store/actions/product";
 import { LIMIT, STOCK } from "../../utils/constant";
 import ProductDetail from "./ProductDetail";
 import { convertIDFormatted } from "../../utils/convertIDFormatted";
+import { NotificationManager } from "react-notifications";
 
 const StockAlert = () => {
   const router = useLocation();
@@ -103,6 +104,7 @@ const StockAlert = () => {
                   onClick={() => {
                     setIsDetailOpen(true);
                     setDetail(row);
+                    NotificationManager.warning(`Stock of ${row.category.name} - ${row.size} is low.`);
                   }}
                 >
                   Detail

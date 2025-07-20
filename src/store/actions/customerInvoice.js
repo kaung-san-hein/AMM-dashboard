@@ -25,6 +25,27 @@ export const getMostSaleProducts = createAsyncThunk(
   }
 );
 
+export const getMostSaleProductsChart = createAsyncThunk(
+  "customerInvoice/getMostSaleProductsChart",
+  async (_, thunkAPI) => {
+    try {
+      const result = await call("get", "customer-invoices/most-sale-products-by-chart");
+
+      return result;
+    } catch (error) {
+      const { status, data } = error.response;
+
+      if (status === 401) {
+        setAccessToken(null);
+        NotificationManager.error(data.message);
+      } else {
+        NotificationManager.error(serverErrorMessage);
+      }
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const getCustomerInvoices = createAsyncThunk(
   "customerInvoice/getCustomerInvoices",
   async (query, thunkAPI) => {

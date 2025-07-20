@@ -19,7 +19,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import StockAlert from "./pages/products/StockAlert";
 import StarIcon from "@mui/icons-material/Star";
-import MostSaleProducts from "./pages/sale/MostSaleProducts";
+import MostSaleProductsPage from "./pages/sale/MostSaleProductsPage";
 import UpdatePurchasePage from "./pages/purchase/UpdatePurchasePage";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -69,7 +69,7 @@ export const routes = [
     invisible: true,
   },
   {
-    name: "Retailers",
+    name: "Customers",
     icon: PeopleAltIcon,
     path: "/customers",
     component: <CustomerList />,
@@ -83,7 +83,7 @@ export const routes = [
     layout: "/admin",
   },
   {
-    name: "Retailer Invoice Page",
+    name: "Customer Invoice Page",
     icon: ReceiptLongIcon,
     path: "/customer-invoices",
     component: <SaleInvoiceList />,
@@ -93,7 +93,7 @@ export const routes = [
     name: "Best Sellers",
     icon: StarIcon,
     path: "/best-sellers",
-    component: <MostSaleProducts />,
+    component: <MostSaleProductsPage />,
     layout: "/admin",
   },
   {

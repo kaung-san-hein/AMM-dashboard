@@ -1,8 +1,10 @@
-import { TableRow } from "@mui/material";
+import { TableRow, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 import { DetailDataRow } from "../../components/detailDataRow/DetailDataRow";
 import CustomModal from "../../components/modal/CustomModal";
 import CustomTable, { StyledTableCell, StyledTableRow } from "../../components/table/CustomTable";
 import { formatUTCToMyanmarTime } from "../../utils/convertFormattedDate";
+import { getStatusBadge } from "../../utils/getStatus";
 
 const PurchaseDetail = ({ open, setOpen, data }) => {
   return (
@@ -15,7 +17,28 @@ const PurchaseDetail = ({ open, setOpen, data }) => {
       <DetailDataRow title="Supplier Name" text={data?.supplier?.name} />
       <DetailDataRow title="Phone No" text={data?.supplier?.phone_no} />
       <DetailDataRow title="Date" text={formatUTCToMyanmarTime(data?.date)} />
-      <DetailDataRow title="Total" text={`${data?.total} Ks`} />
+      <DetailDataRow title="Status" text={getStatusBadge(data?.status)} />
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+        <Typography
+          variant="body1"
+          sx={{ fontWeight: "bold", minWidth: "80px", color: "primary.main" }}
+        >
+          Total
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ fontWeight: "bold", minWidth: "80px" }}
+        >
+          {" "}
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ fontWeight: "bold", color: "primary.main" }}
+        >
+          {data?.total?.toLocaleString()} Ks
+        </Typography>
+      </Box>
+
       <CustomTable
         header={
           <TableRow>

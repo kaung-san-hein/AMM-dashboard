@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,8 +9,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
-import { getMostSaleProducts } from "../../store/actions/customerInvoice";
+import { getMostSaleProductsChart } from "../../store/actions/customerInvoice";
 import CircularProgress from "@mui/material/CircularProgress";
 
 ChartJS.register(
@@ -22,14 +23,14 @@ ChartJS.register(
   Legend
 );
 
-const MostSaleProductsChart = ({ size = "large" }) => {
-  const { loading, mostSaleProducts } = useSelector(
+const MostSaleProductsChart = () => {
+  const { loading, mostSaleProductsChart } = useSelector(
     (state) => state.customerInvoice
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMostSaleProducts());
+    dispatch(getMostSaleProductsChart());
   }, [dispatch]);
 
   if (loading) {
@@ -47,78 +48,74 @@ const MostSaleProductsChart = ({ size = "large" }) => {
     );
   }
 
+  const chartData = {
+    labels: mostSaleProductsChart.map((item) => item?.category?.name || "Unknown"),
+    datasets: [
+      {
+        label: "Total Sales",
+        data: mostSaleProductsChart.map((item) => item?.totalSold || 0),
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Most Sale Products by Category",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Total Sales",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Category",
+        },
+      },
+    },
+  };
+
   return (
-    <>
-      {mostSaleProducts.length > 0 ? (
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: size === "large" ? 3 : 2,
-          }}
-        >
-          {mostSaleProducts.map((item, index) => (
-            <Box
-              key={index}
-              sx={{
-                p: size === "large" ? 2 : 1.5,
-                bgcolor: "white",
-                borderRadius: 1,
-                border: "1px solid #e0e0e0",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-              }}
-            >
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ display: "block", mb: 0.5 }}
-              >
-                {item?.monthName} {item?.year}
-              </Typography>
-              <Typography variant="body2" sx={{ fontWeight: "bold", mb: 0.5 }}>
-                {item?.product?.category?.name}
-              </Typography>
-              <Typography variant="body2" color="primary">
-                Qty: {item?.quantity?.toLocaleString()}
-              </Typography>
-              <Typography variant="body2" color="secondary">
-                Amount: {item?.totalAmount?.toLocaleString()} Ks
-              </Typography>
-            </Box>
-          ))}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            textAlign: "center",
-            color: "text.secondary",
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{
-              mb: 2,
-              color: "text.secondary",
-              fontWeight: "medium",
-            }}
-          >
-            📊 No Sales Data Available
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 1 }}>
-            There are currently no sales records to display.
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Sales data will appear here once you start making transactions.
-          </Typography>
-        </Box>
-      )}
-    </>
+    <Paper
+      elevation={2}
+      sx={{
+        p: 3,
+        height: "400px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Typography
+        variant="h6"
+        component="h6"
+        sx={{
+          fontWeight: "bold",
+          color: "var(--primary-color)",
+          mb: 2,
+        }}
+      >
+        Most Sale Products
+      </Typography>
+      <Box sx={{ flexGrow: 1, position: "relative" }}>
+        <Bar data={chartData} options={options} />
+      </Box>
+    </Paper>
   );
 };
 
-export default MostSaleProductsChart;
+export default MostSaleProductsChart; 
