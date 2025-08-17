@@ -7,17 +7,14 @@ import BackButton from "../components/backButton/BackButton";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
 import CustomerInvoiceReportChart from "../components/chart/CustomerInvoiceReportChart";
 import SupplierInvoiceReportChart from "../components/chart/SupplierInvoiceReportChart";
-import { getMostSaleProducts } from "../store/actions/customerInvoice";
 import MostSaleProductsChart from "../components/chart/MostSaleProductsChart";
 
 const Dashboard = () => {
   const { dashboard } = useSelector((state) => state.dashboard);
-  const { mostSaleProducts } = useSelector((state) => state.customerInvoice);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllTotal());
-    dispatch(getMostSaleProducts());
   }, [dispatch]);
 
   return (
@@ -73,7 +70,7 @@ const Dashboard = () => {
           <Grid item>
             <DashboardCard
               title="Best Sale Product"
-              total={`${mostSaleProducts.length} (s)`}
+              total={``}
               linkText="View Details"
               linkHref="/admin/best-sellers"
             />
