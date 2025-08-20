@@ -51,6 +51,12 @@ const MostSaleProducts = ({ size = "large" }) => {
         totalAmount: item.totalAmount
       });
     });
+    
+    // Sort categories by quantity (descending) for each month
+    Object.values(grouped).forEach(monthData => {
+      monthData.categories.sort((a, b) => b.quantity - a.quantity);
+    });
+    
     return Object.values(grouped).sort((a, b) => {
       // Sort by year and month (descending - most recent first)
       if (a.year !== b.year) return b.year - a.year;
