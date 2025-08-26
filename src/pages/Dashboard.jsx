@@ -8,6 +8,7 @@ import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
 import CustomerInvoiceReportChart from "../components/chart/CustomerInvoiceReportChart";
 import SupplierInvoiceReportChart from "../components/chart/SupplierInvoiceReportChart";
 import MostSaleProductsChart from "../components/chart/MostSaleProductsChart";
+import PeopleCountPieChart from "../components/chart/PeopleCountPieChart";
 
 const Dashboard = () => {
   const { dashboard } = useSelector((state) => state.dashboard);
@@ -90,6 +91,9 @@ const Dashboard = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <MostSaleProductsChart />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <PeopleCountPieChart />
             </Grid>
           </Grid>
         </Box>

@@ -97,7 +97,7 @@ const SupplierInvoiceReportChart = () => {
       },
       title: {
         display: true,
-        text: `Supplier Invoice Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
+        text: `Credit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
       },
       tooltip: {
         callbacks: {
@@ -148,7 +148,7 @@ const SupplierInvoiceReportChart = () => {
             color: "var(--primary-color)",
           }}
         >
-          Supplier Invoice Report
+          Credit Report (Outcomes)
         </Typography>
         <ToggleButtonGroup
           value={reportType}

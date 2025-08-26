@@ -97,7 +97,7 @@ const CustomerInvoiceReportChart = () => {
       },
       title: {
         display: true,
-        text: `Customer Invoice Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
+        text: `Debit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
       },
       tooltip: {
         callbacks: {
@@ -148,7 +148,7 @@ const CustomerInvoiceReportChart = () => {
             color: "var(--primary-color)",
           }}
         >
-          Customer Invoice Report
+          Debit Report (Outcomes)
         </Typography>
         <ToggleButtonGroup
           value={reportType}

@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { getMostSaleProducts } from "../../store/actions/customerInvoice";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -64,6 +65,72 @@ const MostSaleProducts = ({ size = "large" }) => {
     });
   };
 
+  // Create chart data for a month
+  const createChartData = (monthData) => {
+    const labels = monthData.categories.map(cat => cat.categoryName);
+    const quantities = monthData.categories.map(cat => cat.quantity);
+    const amounts = monthData.categories.map(cat => cat.totalAmount);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Quantity',
+          data: quantities,
+          backgroundColor: 'rgba(54, 162, 235, 0.8)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+          yAxisID: 'y',
+        },
+        {
+          label: 'Total Amount (Ks)',
+          data: amounts,
+          backgroundColor: 'rgba(255, 99, 132, 0.8)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+          yAxisID: 'y1',
+        }
+      ]
+    };
+  };
+
+  // Chart options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Quantity'
+        }
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        title: {
+          display: true,
+          text: 'Total Amount (Ks)'
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+    },
+  };
+
   if (loading) {
     return (
       <Box
@@ -108,47 +175,65 @@ const MostSaleProducts = ({ size = "large" }) => {
                 {monthData.monthName} {monthData.year}
               </Typography>
               
-              <TableContainer>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                      <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: "bold" }}>Quantity</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: "bold" }}>Total Amount (Ks)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {monthData.categories.map((category, categoryIndex) => (
-                      <TableRow
-                        key={categoryIndex}
-                        sx={{
-                          '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
-                          '&:hover': { backgroundColor: '#f0f0f0' }
-                        }}
-                      >
-                        <TableCell sx={{ fontWeight: "medium" }}>
-                          {category.categoryName}
-                        </TableCell>
-                        <TableCell align="right">
-                          {category.quantity.toLocaleString()}
-                        </TableCell>
-                        <TableCell align="right">
-                          {category.totalAmount.toLocaleString()}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <TableRow sx={{ backgroundColor: "#e3f2fd", fontWeight: "bold" }}>
-                      <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                        {monthData.categories.reduce((sum, cat) => sum + cat.quantity, 0).toLocaleString()}
-                      </TableCell>
-                      <TableCell align="right" sx={{ fontWeight: "bold" }}>
-                        {monthData.categories.reduce((sum, cat) => sum + cat.totalAmount, 0).toLocaleString()}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Box sx={{ display: "flex", gap: 3, flexDirection: { xs: "column", lg: "row" } }}>
+                {/* Bar Chart */}
+                <Box sx={{ flex: { xs: "1", lg: "1" }, minHeight: "300px" }}>
+                  <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "medium", textAlign: "center" }}>
+                    Sales Overview
+                  </Typography>
+                  <Box sx={{ height: "300px", width: "100%" }}>
+                    <Bar data={createChartData(monthData)} options={chartOptions} />
+                  </Box>
+                </Box>
+
+                {/* Table */}
+                <Box sx={{ flex: { xs: "1", lg: "1" } }}>
+                  <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "medium", textAlign: "center" }}>
+                    Detailed Breakdown
+                  </Typography>
+                  <TableContainer>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                          <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: "bold" }}>Quantity</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: "bold" }}>Total Amount (Ks)</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {monthData.categories.map((category, categoryIndex) => (
+                          <TableRow
+                            key={categoryIndex}
+                            sx={{
+                              '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
+                              '&:hover': { backgroundColor: '#f0f0f0' }
+                            }}
+                          >
+                            <TableCell sx={{ fontWeight: "medium" }}>
+                              {category.categoryName}
+                            </TableCell>
+                            <TableCell align="right">
+                              {category.quantity.toLocaleString()}
+                            </TableCell>
+                            <TableCell align="right">
+                              {category.totalAmount.toLocaleString()}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                        <TableRow sx={{ backgroundColor: "#e3f2fd", fontWeight: "bold" }}>
+                          <TableCell sx={{ fontWeight: "bold" }}>Total</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                            {monthData.categories.reduce((sum, cat) => sum + cat.quantity, 0).toLocaleString()}
+                          </TableCell>
+                          <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                            {monthData.categories.reduce((sum, cat) => sum + cat.totalAmount, 0).toLocaleString()}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              </Box>
             </Paper>
           ))}
         </Box>
