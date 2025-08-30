@@ -11,7 +11,9 @@ export const getStockAlertCount = createAsyncThunk(
     try {
       const result = await call("get", "products/stock-alert");
 
-      const currentCount = getStockAlertCountFromCache() || 0
+      const fromCache = getStockAlertCountFromCache()
+
+      const currentCount = fromCache ? fromCache : 0
 
       if (currentCount < result.data) {
         NotificationManager.warning("There are new stock alerts. Please check the stock alert page.");
