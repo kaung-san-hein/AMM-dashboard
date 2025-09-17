@@ -20,12 +20,18 @@ import {
 import { LIMIT } from "../../utils/constant";
 import { formatUTCToMyanmarTime } from "../../utils/convertFormattedDate";
 import SaleDetail from "./SaleDetail";
+import { call } from "../../services/api";
+import { Download } from "@mui/icons-material";
+import { NotificationManager } from "react-notifications";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const SaleInvoiceList = () => {
   const router = useLocation();
 
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
 
   const { loading, customerInvoices, total } = useSelector(
     (state) => state.customerInvoice
@@ -44,6 +50,72 @@ const SaleInvoiceList = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are sure want to delete?")) {
       dispatch(deleteCustomerInvoice(id));
+    }
+  };
+
+  const handleExportPDF = async () => {
+    try {
+      setIsExporting(true);
+      const response = await call('get', 'customer-invoices/export');
+      const data = response.data || response;
+
+      // Initialize PDF document
+      const doc = new jsPDF('l', 'pt', 'a4');
+      
+      // Set title
+      doc.setFontSize(16);
+      doc.text('Customer Invoice List', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+      
+      // Set date
+      doc.setFontSize(10);
+      doc.text(`Exported on: ${new Date().toLocaleDateString()}`, doc.internal.pageSize.getWidth() / 2, 50, { align: 'center' });
+
+      // Prepare table data
+      const tableHeaders = ['No', 'Voucher No', 'Customer Name', 'Phone No', 'Date', 'Item Count', 'Total'];
+      const tableRows = data.map((row, index) => [
+        index + 1,
+        row?.date || '-',
+        row?.customer?.name || '-',
+        row?.customer?.phone_no || '-',
+        formatUTCToMyanmarTime(row?.date),
+        row?.item_count || row?.customer_invoice_items?.length || 0,
+        `${row?.total || 0} Ks`
+      ]);
+
+      // Add table to PDF
+      autoTable(doc, {
+        head: [tableHeaders],
+        body: tableRows,
+        startY: 70,
+        theme: 'grid',
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
+        },
+        headStyles: {
+          fillColor: [156, 39, 176], // Purple color
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        columnStyles: {
+          0: { cellWidth: 30 }, // No
+          1: { cellWidth: 100 }, // Voucher No
+          2: { cellWidth: 120 }, // Customer Name
+          3: { cellWidth: 100 }, // Phone No
+          4: { cellWidth: 100 }, // Date
+          5: { cellWidth: 60 }, // Item Count
+          6: { cellWidth: 80 }, // Total
+        },
+      });
+
+      // Save the PDF
+      doc.save(`customer-invoices-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      NotificationManager.success('PDF exported successfully!');
+    } catch (error) {
+      NotificationManager.error(error.message || 'Export failed');
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -67,18 +139,45 @@ const SaleInvoiceList = () => {
     <>
       <Box>
         <BackButton />
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h5"
+        <Box
           sx={{
-            fontWeight: "bold",
-            color: "var(--primary-color)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
             marginTop: "10px",
           }}
         >
-          Customer Invoice List
-        </Typography>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h5"
+            sx={{
+              fontWeight: "bold",
+              color: "var(--primary-color)",
+            }}
+          >
+            Customer Invoice List
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<Download />}
+            onClick={handleExportPDF}
+            disabled={isExporting}
+            sx={{
+              backgroundColor: "#2e7d32",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#1b5e20",
+              },
+              "&:disabled": {
+                backgroundColor: "#a5d6a7",
+                color: "white",
+              },
+            }}
+          >
+            {isExporting ? "Exporting..." : "Export PDF"}
+          </Button>
+        </Box>
         <CustomTable
           header={
             <TableRow>
@@ -87,6 +186,7 @@ const SaleInvoiceList = () => {
               <StyledTableCell>Customer Name</StyledTableCell>
               <StyledTableCell>Phone No</StyledTableCell>
               <StyledTableCell>Date</StyledTableCell>
+              <StyledTableCell>Item Count</StyledTableCell>
               <StyledTableCell>Total</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </TableRow>
@@ -101,6 +201,9 @@ const SaleInvoiceList = () => {
               <StyledTableCell>{row?.customer.phone_no}</StyledTableCell>
               <StyledTableCell>
                 {formatUTCToMyanmarTime(row?.date)}
+              </StyledTableCell>
+              <StyledTableCell>
+                {row?.item_count || row?.customer_invoice_items?.length || 0}
               </StyledTableCell>
               <StyledTableCell>{row.total} Ks</StyledTableCell>
               <StyledTableCell>
