@@ -97,7 +97,7 @@ const CustomerInvoiceReportChart = () => {
       },
       title: {
         display: true,
-        text: `Debit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
+        text: `Credit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
       },
       tooltip: {
         callbacks: {

@@ -97,7 +97,7 @@ const SupplierInvoiceReportChart = () => {
       },
       title: {
         display: true,
-        text: `Credit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
+        text: `Debit Report - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`,
       },
       tooltip: {
         callbacks: {
