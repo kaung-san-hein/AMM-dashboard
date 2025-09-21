@@ -148,7 +148,7 @@ const CustomerInvoiceReportChart = () => {
             color: "var(--primary-color)",
           }}
         >
-          Credit Report (Outcomes) 
+          Credit Report (Incomes) 
         </Typography>
         <ToggleButtonGroup
           value={reportType}
